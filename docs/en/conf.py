@@ -21,8 +21,8 @@ html_theme_path = [moodle_docs_theme.get_html_theme_path()]
 html_theme_options = {
     "project_name": "moodle-local_enrolconditions",
     "tagline": "Condition engine for conditional self enrolment in Moodle",
-    "github_url": "https://github.com/moodle-by-kelsoncm/local_enrolconditions",
-    "github_repo": "moodle-by-kelsoncm/local_enrolconditions",
+    "github_url": "https://github.com/moodle-by-kelsoncm/moodle-local_enrolconditions",
+    "github_repo": "moodle-by-kelsoncm/moodle-local_enrolconditions",
     "github_version": "main",
     "doc_path": "docs/en/",
     "show_edit_on_github": True,

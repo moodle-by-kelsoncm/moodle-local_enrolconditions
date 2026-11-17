@@ -5,7 +5,7 @@ moodle-local_enrolconditions
 
 Versão em português: `Português (Brasil) <../pt-br/index.html>`_.
 
-*Enrolment conditions* is the condition engine of the `Conditional self enrolment <https://moodle-by-kelsoncm.github.io/enrol_conditional/>`_ method (``enrol_conditional``). It has no page for teachers: the conditions are built in the settings of the enrolment method, and this plugin evaluates them.
+*Enrolment conditions* is the condition engine of the `Conditional self enrolment <https://moodle-by-kelsoncm.github.io/moodle-enrol_conditional/>`_ method (``enrol_conditional``). It has no page for teachers: the conditions are built in the settings of the enrolment method, and this plugin evaluates them.
 
 .. figure:: ../img/course-conditions-editor.png
    :alt: Conditions of an enrolment method: Department is Mathematics AND (member of a cohort OR completed another course) AND a date range.

@@ -5,7 +5,7 @@ Requisitos: Moodle 5.3 LTS.
 
 #. Copie este plugin para ``public/local/enrolconditions``. Os sete tipos de condição vêm junto, em ``public/local/enrolconditions/condition``.
 #. Acesse *Administração do site > Notificações* e conclua a instalação.
-#. Instale o `enrol_conditional <https://github.com/moodle-by-kelsoncm/enrol_conditional>`_ em ``public/enrol/conditional``, o método de inscrição que usa estas condições (veja a `documentação <https://moodle-by-kelsoncm.github.io/enrol_conditional/>`_ dele).
+#. Instale o `enrol_conditional <https://github.com/moodle-by-kelsoncm/moodle-enrol_conditional>`_ em ``public/enrol/conditional``, o método de inscrição que usa estas condições (veja a `documentação <https://moodle-by-kelsoncm.github.io/moodle-enrol_conditional/>`_ dele).
 
 Todos os tipos de condição ficam habilitados depois da instalação. Veja :doc:`administration` para desabilitar os que o site não usa.
 

@@ -5,7 +5,7 @@ moodle-local_enrolconditions
 
 English version: `English <../en/index.html>`_.
 
-O *Enrolment conditions* é o motor de condições do método `Conditional self enrolment <https://moodle-by-kelsoncm.github.io/enrol_conditional/>`_ (``enrol_conditional``). Ele não tem página para o professor: as condições são montadas nas configurações do método de inscrição, e este plugin as avalia.
+O *Enrolment conditions* é o motor de condições do método `Conditional self enrolment <https://moodle-by-kelsoncm.github.io/moodle-enrol_conditional/>`_ (``enrol_conditional``). Ele não tem página para o professor: as condições são montadas nas configurações do método de inscrição, e este plugin as avalia.
 
 .. figure:: ../img/course-conditions-editor.png
    :alt: Condições de um método de inscrição: Departamento é Mathematics E (membro de uma coorte OU concluiu outro curso) E um período de datas.
