@@ -12,7 +12,7 @@ Gerenciando os tipos de condição
 
    Os tipos de condição instalados.
 
-Um tipo desabilitado deixa de ser oferecido aos professores. Os métodos de inscrição que já o usam mantêm a condição na árvore, mas ela não pode mais ser avaliada: o resultado é *desconhecido*. O ``enrol_conditional`` então recusa novas autoinscrições e nunca suspende, remove ou reativa ninguém por causa dela.
+Um tipo desabilitado deixa de ser oferecido aos professores. Os métodos de inscrição que já o usam mantêm a condição na árvore, mas ela não pode mais ser avaliada: o resultado é *desconhecido*. O ``enrol_conditional`` então recusa novas autoinscrições, e as reavaliações nunca suspendem, removem ou reativam ninguém por causa dela.
 
 Listas de consulta
 ------------------
@@ -45,7 +45,17 @@ Exemplo, os usuários de uma instituição:
 
    SELECT username FROM {user} WHERE institution = 'IFRN' AND deleted = 0
 
-Tarefa agendada
----------------
+Reavaliações
+------------
+
+Os métodos de inscrição que usam este motor (o ``enrol_conditional`` e qualquer outro que implemente ``\local_enrolconditions\enforceable``) escolhem, por instância, quando as inscrições existentes são reavaliadas e o que acontece quando as condições deixam de ser cumpridas. Em *Administração do site > Plugins > Inscrições > Enrolment conditions > Re-checks* fica a configuração comum a todos:
+
+Enrolments per periodic check
+   Máximo de inscrições reavaliadas a cada execução da tarefa agendada (padrão 500). A execução seguinte continua de onde a anterior parou.
+
+Tarefas agendadas
+-----------------
+
+*Re-check the conditions of existing enrolments* roda de hora em hora e reavalia, em lotes, as inscrições das instâncias com a reavaliação periódica.
 
 *Delete files of usernames no longer used by any condition* (``enrolcond_userfile``) roda diariamente e apaga, depois de um dia, os arquivos que nenhuma condição usa mais.

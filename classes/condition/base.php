@@ -132,8 +132,8 @@ abstract class base {
     /**
      * Events that may change the result of the condition for a user.
      *
-     * The plugin that evaluates the conditions observes the events itself: enrol_conditional observes
-     * every event ('*') and checks the user of the event, so the plugin that provides the condition
+     * The enforcer observes the events itself: local_enrolconditions observes every event ('*') and re-checks
+     * the user of the event in the instances that use the condition, so the plugin that provides the condition
      * does not need a db/events.php for them.
      *
      * @return string[] Fully qualified event class names.

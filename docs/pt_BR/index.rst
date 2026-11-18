@@ -21,6 +21,7 @@ O que ele oferece
 * Avaliação com três valores (cumprida, não cumprida, desconhecida) e a explicação mostrada a quem não cumpre as condições.
 * O editor de condições e as janelas de configuração usados no formulário do método de inscrição.
 * A classe base ``\local_enrolconditions\condition\base`` e o hook ``\local_enrolconditions\hook\collect_conditions``, para que outros plugins acrescentem condições próprias.
+* As reavaliações das inscrições existentes (no login, periódica e por eventos), com a ação *nada*, *suspender* ou *remover* e a reativação das inscrições que ele suspendeu, para qualquer método de inscrição que implemente ``\local_enrolconditions\enforceable``.
 * Uma página para habilitar, desabilitar e desinstalar os tipos de condição.
 
 Requer Moodle 5.3 LTS. Instale junto com o ``enrol_conditional``.

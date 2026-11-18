@@ -75,7 +75,7 @@ Métodos opcionais:
 Usando o motor em outro plugin
 ------------------------------
 
-Hoje só o ``enrol_conditional`` usa o motor, mas as classes são públicas:
+As classes que avaliam as condições são públicas:
 
 .. code-block:: php
 
@@ -93,6 +93,64 @@ Hoje só o ``enrol_conditional`` usa o motor, mas as classes são públicas:
    $events = $tree->get_observed_events();
 
 O ``\local_enrolconditions\condition\manager`` lista os tipos instalados e habilitados (``get_installed_types()``, ``get_enabled_types()``, ``is_enabled()``) e devolve uma condição pelo tipo (``get_condition()``). O ``tree::for_restore()`` adapta as configurações para um curso restaurado.
+
+Usando o motor em outro método de inscrição
+-------------------------------------------
+
+Um método de inscrição ganha as mesmas reavaliações do ``enrol_conditional`` (no login, periódica e por eventos, com suspensão, remoção e reativação) ao implementar ``\local_enrolconditions\enforceable`` na classe do plugin. Ele guarda a configuração de cada instância nas suas próprias colunas da tabela ``enrol``.
+
+.. code-block:: php
+
+   use local_enrolconditions\enforceable;
+   use local_enrolconditions\local\enforcer;
+   use local_enrolconditions\output\enforcement_form;
+   use local_enrolconditions\output\tree_editor;
+
+   class enrol_meuplugin_plugin extends enrol_plugin implements enforceable {
+       public function get_enforcement_tree(stdClass $instance): ?string {
+           return $instance->customtext3;                    // JSON de tree::to_json().
+       }
+
+       public function get_enforcement_check_modes(stdClass $instance): int {
+           return (int) $instance->customint5;              // Bitmask de enforceable::CHECK_*.
+       }
+
+       public function get_enforcement_action(stdClass $instance): int {
+           return (int) $instance->customint6;              // enforceable::ACTION_NONE, _SUSPEND ou _REMOVE.
+       }
+
+       public function get_enforcement_reactivate(stdClass $instance): bool {
+           return (bool) $instance->customchar1;
+       }
+
+       public function get_enforcement_mode_sql(int $mode): ?array {
+           global $DB;
+           // Ou devolva null, e o enforcer filtra as instâncias habilitadas com get_enforcement_check_modes().
+           return [$DB->sql_bitand('e.customint5', $mode) . ' <> 0', []];
+       }
+
+       public function sync_user_enrolments($user) {
+           (new enforcer())->check_user_in_mode((int) $user->id, self::CHECK_LOGIN, 'meuplugin');
+       }
+
+       public function edit_instance_form($instance, MoodleQuickForm $mform, $context) {
+           tree_editor::add_to_form($mform, 'customtext3', get_string('conditions', 'enrol_meuplugin'), $context,
+               $instance->customtext3 ?? null);
+           enforcement_form::add_to_form($mform, $acao, $reativar, $modos);
+       }
+   }
+
+O ``enforcement_form::get_submitted()`` lê a ação, a reativação e os modos enviados e tira esses campos dos dados, para o método guardá-los nas suas colunas no ``add_instance()`` e no ``update_instance()``. A avaliação na hora da inscrição fica com o método, por meio do ``enforcer::evaluate($json, $userid, $instance)``.
+
+Enquanto o método de inscrição estiver habilitado, o ``local_enrolconditions``:
+
+* reavalia as inscrições dele na tarefa agendada (``CHECK_PERIODIC``) e quando ocorre um evento observado pelas condições (``CHECK_EVENTS``); o cache dos eventos observados é limpo sempre que uma instância de inscrição é criada, alterada ou excluída;
+* aplica a ação da instância com o ``update_user_enrol()`` e o ``unenrol_user()`` padrão do plugin;
+* só reativa as inscrições que ele mesmo suspendeu e que ninguém alterou depois, registradas em ``local_enrolconditions_state`` com o nome do método;
+* dispara ``\local_enrolconditions\event\user_enrolment_suspended``, ``user_enrolment_reactivated`` e ``conditions_not_met``, com o método em ``other['enrol']``;
+* exporta e exclui os registros pela Privacy API dele.
+
+Um resultado desconhecido (tipo de condição desabilitado ou desinstalado, árvore inválida) nunca altera uma inscrição. O método faz o backup e a restauração das suas colunas; o ``enrol_conditional`` mostra como fazer o backup dos registros abertos de ``local_enrolconditions_state``.
 
 Formato da árvore
 -----------------
