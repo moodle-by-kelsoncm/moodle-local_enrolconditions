@@ -2,6 +2,16 @@
 
 All notable changes to the Enrolment conditions plugin will be documented in this file.
 
+## 1.0.1 - 2026-11-18
+
+### Changed
+- README and documentation point to the repository renamed to `moodle-by-kelsoncm/moodle-local_enrolconditions`.
+- New documentation site; the README shows the plugin icon and screenshots.
+- The documentation folder (`docs/`) stays out of the plugin ZIP.
+
+### Fixed
+- The PHPDoc of `base::get_events()` says that `enrol_conditional` observes every event, so condition plugins need no `db/events.php` for them.
+
 ## 1.0.0 - 2026-11-09
 
 ### Added
