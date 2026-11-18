@@ -8,7 +8,7 @@ Documentation / Documentação: <https://moodle-by-kelsoncm.github.io/moodle-loc
 
 ## English
 
-Condition engine for [`enrol_conditional`](https://github.com/moodle-by-kelsoncm/moodle-enrol_conditional). It declares the `enrolcond` subplugin type (folder `condition/`), the base class `\local_enrolconditions\condition\base` and the hook `\local_enrolconditions\hook\collect_conditions`, through which any other plugin can provide conditions too. Administrators enable and disable the conditions in *Site administration > Plugins > Enrolments > Enrolment conditions > Manage conditions*. Supports Moodle 5.3 LTS.
+Condition engine for [`enrol_conditional`](https://github.com/moodle-by-kelsoncm/moodle-enrol_conditional). It declares the `enrolcond` subplugin type (folder `condition/`), the base class `\local_enrolconditions\condition\base` and the hook `\local_enrolconditions\hook\collect_conditions`, through which any other plugin can provide conditions too. It also re-checks existing enrolments (at login, periodically and on events) and suspends, removes or reactivates them, for `enrol_conditional` and any other enrolment method that implements `\local_enrolconditions\enforceable` (see *Using the engine from another enrolment method* in the documentation). Administrators enable and disable the conditions in *Site administration > Plugins > Enrolments > Enrolment conditions > Manage conditions*. Supports Moodle 5.3 LTS.
 
 Conditions included:
 
@@ -35,7 +35,7 @@ Extend `\local_enrolconditions\condition\base` and implement `is_met()`, `get_de
 
 ## Português (Brasil)
 
-Motor de condições do [`enrol_conditional`](https://github.com/moodle-by-kelsoncm/moodle-enrol_conditional). Declara o tipo de subplugin `enrolcond` (pasta `condition/`), a classe base `\local_enrolconditions\condition\base` e o hook `\local_enrolconditions\hook\collect_conditions`, pelo qual qualquer outro plugin também pode fornecer condições. O administrador habilita e desabilita as condições em *Administração do site > Plugins > Inscrições > Enrolment conditions > Manage conditions*. Suporta Moodle 5.3 LTS.
+Motor de condições do [`enrol_conditional`](https://github.com/moodle-by-kelsoncm/moodle-enrol_conditional). Declara o tipo de subplugin `enrolcond` (pasta `condition/`), a classe base `\local_enrolconditions\condition\base` e o hook `\local_enrolconditions\hook\collect_conditions`, pelo qual qualquer outro plugin também pode fornecer condições. Também reavalia as inscrições existentes (no login, periodicamente e por eventos) e as suspende, remove ou reativa, para o `enrol_conditional` e qualquer outro método de inscrição que implemente `\local_enrolconditions\enforceable` (veja *Usando o motor em outro método de inscrição* na documentação). O administrador habilita e desabilita as condições em *Administração do site > Plugins > Inscrições > Enrolment conditions > Manage conditions*. Suporta Moodle 5.3 LTS.
 
 Condições incluídas: data, campo de perfil, coorte, curso concluído, lista digitada de usernames, arquivo de usernames guardado no curso e listas de usernames definidas pelo administrador como consultas SQL (veja a tabela acima e a documentação).
 

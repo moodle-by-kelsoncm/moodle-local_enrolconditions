@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/enrolconditions/db" VERSION="20261118" COMMENT="XMLDB file for Moodle local/enrolconditions"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_enrolconditions_state" COMMENT="Actions taken by the enforcer when the conditions of an enrolment stopped being met. Only enrolments suspended by the enforcer, recorded here, can be reactivated by it.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="enrol" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="Enrolment method of the instance."/>
+        <FIELD NAME="userenrolmentid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="User enrolment affected."/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Enrolment instance."/>
+        <FIELD NAME="action" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="Action taken: none (only recorded) or suspend."/>
+        <FIELD NAME="reason" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Conditions not met, as plain text."/>
+        <FIELD NAME="timesuspended" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="When the enforcer acted (suspended, or recorded the failure when the action is none)."/>
+        <FIELD NAME="uetimemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="timemodified of the user enrolment right after the enforcer acted, updated when someone else only changes the dates of a suspended enrolment. A different value means the enrolment was changed without events."/>
+        <FIELD NAME="timereactivated" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="When the enforcer reactivated the enrolment."/>
+        <FIELD NAME="timeclosed" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="When this record stopped applying. Null while open."/>
+        <FIELD NAME="closereason" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Why it was closed: reactivated, met, external or superseded."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="userenrolmentid" TYPE="foreign" FIELDS="userenrolmentid" REFTABLE="user_enrolments" REFFIELDS="id"/>
+        <KEY NAME="instanceid" TYPE="foreign" FIELDS="instanceid" REFTABLE="enrol" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="userenrolmentid-timeclosed" UNIQUE="false" FIELDS="userenrolmentid, timeclosed"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

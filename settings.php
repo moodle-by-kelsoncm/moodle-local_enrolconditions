@@ -42,6 +42,18 @@ if ($hassiteconfig) {
     ));
     $ADMIN->add('local_enrolconditions_folder', $manage);
 
+    $settings = new admin_settingpage('local_enrolconditions_settings', new lang_string('settings', 'local_enrolconditions'));
+    if ($ADMIN->fulltree) {
+        $settings->add(new admin_setting_configtext(
+            'local_enrolconditions/checkbatchsize',
+            new lang_string('checkbatchsize', 'local_enrolconditions'),
+            new lang_string('checkbatchsize_desc', 'local_enrolconditions'),
+            500,
+            PARAM_INT
+        ));
+    }
+    $ADMIN->add('local_enrolconditions_folder', $settings);
+
     foreach (core_plugin_manager::instance()->get_plugins_of_type('enrolcond') as $plugin) {
         /** @var enrolcond $plugin */
         $plugin->load_settings($ADMIN, 'local_enrolconditions_folder', $hassiteconfig);

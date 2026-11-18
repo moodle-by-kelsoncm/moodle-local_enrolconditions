@@ -12,7 +12,7 @@ Managing the condition types
 
    The installed condition types.
 
-A disabled type is no longer offered to teachers. Enrolment methods that already use it keep it in their trees, but the condition can no longer be checked: its result is *unknown*. ``enrol_conditional`` then refuses new self enrolments and never suspends, removes or reactivates anybody because of it.
+A disabled type is no longer offered to teachers. Enrolment methods that already use it keep it in their trees, but the condition can no longer be checked: its result is *unknown*. ``enrol_conditional`` then refuses new self enrolments, and the re-checks never suspend, remove or reactivate anybody because of it.
 
 Lists from a query
 ------------------
@@ -45,7 +45,17 @@ Example, the users with a given institution:
 
    SELECT username FROM {user} WHERE institution = 'IFRN' AND deleted = 0
 
-Scheduled task
---------------
+Re-checks
+---------
+
+The enrolment methods that use this engine (``enrol_conditional`` and any other that implements ``\local_enrolconditions\enforceable``) choose, per instance, when existing enrolments are re-checked and what happens when the conditions are no longer met. *Site administration > Plugins > Enrolments > Enrolment conditions > Re-checks* has the setting common to all of them:
+
+Enrolments per periodic check
+   Maximum number of enrolments re-checked by each run of the scheduled task (default 500). The next run continues where the previous one stopped.
+
+Scheduled tasks
+---------------
+
+*Re-check the conditions of existing enrolments* runs every hour and re-checks, in batches, the enrolments of the instances with the periodic check.
 
 *Delete files of usernames no longer used by any condition* (``enrolcond_userfile``) runs daily and deletes, after one day, the files that no condition uses any more.

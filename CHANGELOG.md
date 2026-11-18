@@ -2,6 +2,17 @@
 
 All notable changes to the Enrolment conditions plugin will be documented in this file.
 
+## 1.1.0 - 2026-11-18
+
+### Added
+- Interface `\local_enrolconditions\enforceable`: any enrolment method that implements it gets the re-checks of existing enrolments (at login, in the scheduled task and on the events observed by the conditions), the action when the conditions are no longer met (nothing, suspend or remove) and the reactivation of the enrolments suspended by the enforcer.
+- Enforcer `\local_enrolconditions\local\enforcer`, observers, scheduled task *Re-check the conditions of existing enrolments* and cache of observed events, moved from `enrol_conditional` and made generic.
+- Table `local_enrolconditions_state`, with the enrolment method of each record, and its Privacy API provider.
+- Events `user_enrolment_suspended`, `user_enrolment_reactivated` and `conditions_not_met`, with the enrolment method in `other['enrol']`.
+- Form helper `\local_enrolconditions\output\enforcement_form` for the action, the reactivation and the check modes.
+- Settings page *Re-checks* with *Enrolments per periodic check*.
+- Documentation: *Using the engine from another enrolment method*.
+
 ## 1.0.1 - 2026-11-18
 
 ### Changed

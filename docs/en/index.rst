@@ -21,6 +21,7 @@ What it provides
 * A three-valued evaluation (met, not met, unknown) and the explanation shown to users who do not meet the conditions.
 * The condition editor and the configuration dialogs used in the enrolment method form.
 * The base class ``\local_enrolconditions\condition\base`` and the hook ``\local_enrolconditions\hook\collect_conditions``, so other plugins can add their own conditions.
+* The re-checks of existing enrolments (at login, periodically and on events), with the action *nothing*, *suspend* or *remove* and the reactivation of the enrolments it suspended, for any enrolment method that implements ``\local_enrolconditions\enforceable``.
 * A page to enable, disable and uninstall the condition types.
 
 Requires Moodle 5.3 LTS. Install it together with ``enrol_conditional``.

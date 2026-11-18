@@ -75,7 +75,7 @@ Optional methods:
 Using the engine in another plugin
 ----------------------------------
 
-``enrol_conditional`` is the only user of the engine today, but the classes are public:
+The classes that evaluate the conditions are public:
 
 .. code-block:: php
 
@@ -93,6 +93,64 @@ Using the engine in another plugin
    $events = $tree->get_observed_events();
 
 ``\local_enrolconditions\condition\manager`` lists the installed and enabled types (``get_installed_types()``, ``get_enabled_types()``, ``is_enabled()``) and returns a condition by type (``get_condition()``). ``tree::for_restore()`` adapts the configurations for a restored course.
+
+Using the engine from another enrolment method
+----------------------------------------------
+
+An enrolment method gets the same re-checks as ``enrol_conditional`` (at login, periodically and on events, with suspension, removal and reactivation) by implementing ``\local_enrolconditions\enforceable`` in its plugin class. It keeps the configuration of each instance in its own columns of the ``enrol`` table.
+
+.. code-block:: php
+
+   use local_enrolconditions\enforceable;
+   use local_enrolconditions\local\enforcer;
+   use local_enrolconditions\output\enforcement_form;
+   use local_enrolconditions\output\tree_editor;
+
+   class enrol_myplugin_plugin extends enrol_plugin implements enforceable {
+       public function get_enforcement_tree(stdClass $instance): ?string {
+           return $instance->customtext3;                    // JSON from tree::to_json().
+       }
+
+       public function get_enforcement_check_modes(stdClass $instance): int {
+           return (int) $instance->customint5;              // Bitmask of enforceable::CHECK_*.
+       }
+
+       public function get_enforcement_action(stdClass $instance): int {
+           return (int) $instance->customint6;              // enforceable::ACTION_NONE, _SUSPEND or _REMOVE.
+       }
+
+       public function get_enforcement_reactivate(stdClass $instance): bool {
+           return (bool) $instance->customchar1;
+       }
+
+       public function get_enforcement_mode_sql(int $mode): ?array {
+           global $DB;
+           // Or return null and the enforcer filters the enabled instances with get_enforcement_check_modes().
+           return [$DB->sql_bitand('e.customint5', $mode) . ' <> 0', []];
+       }
+
+       public function sync_user_enrolments($user) {
+           (new enforcer())->check_user_in_mode((int) $user->id, self::CHECK_LOGIN, 'myplugin');
+       }
+
+       public function edit_instance_form($instance, MoodleQuickForm $mform, $context) {
+           tree_editor::add_to_form($mform, 'customtext3', get_string('conditions', 'enrol_myplugin'), $context,
+               $instance->customtext3 ?? null);
+           enforcement_form::add_to_form($mform, $action, $reactivate, $modes);
+       }
+   }
+
+``enforcement_form::get_submitted()`` reads the submitted action, reactivation and check modes and removes their fields from the data, so the method can store them in its columns in ``add_instance()`` and ``update_instance()``. Check the conditions at enrolment yourself, with ``enforcer::evaluate($json, $userid, $instance)``.
+
+While the enrolment method is enabled, ``local_enrolconditions``:
+
+* re-checks its enrolments in the scheduled task (``CHECK_PERIODIC``) and when an event observed by the conditions happens (``CHECK_EVENTS``); the cache of observed events is cleared whenever an enrolment instance is created, updated or deleted;
+* applies the action of the instance with the standard ``update_user_enrol()`` and ``unenrol_user()`` of the plugin;
+* only reactivates the enrolments that it suspended itself and that nobody changed since, recorded in ``local_enrolconditions_state`` with the name of the method;
+* triggers ``\local_enrolconditions\event\user_enrolment_suspended``, ``user_enrolment_reactivated`` and ``conditions_not_met``, with the method in ``other['enrol']``;
+* exports and deletes the records through its Privacy API.
+
+An unknown result (a condition type disabled or uninstalled, an invalid tree) never changes an enrolment. The method backs up and restores its own instance columns; ``enrol_conditional`` shows how to back up the open records of ``local_enrolconditions_state``.
 
 Tree format
 -----------
