@@ -54,6 +54,9 @@ Curso concluído (``enrolcond_coursecompleted``)
       :alt: Janela da condição de curso concluído.
       :width: 520px
 
+Inscrito em curso (``enrolcond_courseenrolled``)
+   Cumprida por quem está inscrito em outros cursos: em pelo menos um ou em todos, até 50 cursos. Por padrão só contam inscrições ativas (não suspensas, em método de inscrição habilitado e dentro das datas); desmarque *Only active enrolments* para contar qualquer inscrição. A própria inscrição verificada nunca cumpre a condição. Um curso apagado nunca é cumprido (a descrição mostra o id). Observa inscrições criadas, alteradas e removidas. Restaurada em outro site, não é cumprida até um professor editá-la.
+
 Lista de usernames (``enrolcond_userlist``)
    Usernames digitados na condição, um por linha ou separados por espaço, vírgula ou ponto e vírgula; maiúsculas e minúsculas contam igual. No máximo 5.000 usernames.
 

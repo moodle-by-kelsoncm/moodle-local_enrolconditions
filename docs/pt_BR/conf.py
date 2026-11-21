@@ -3,7 +3,7 @@ import moodle_docs_theme
 project = "moodle-local_enrolconditions"
 copyright = "2026, Kelson C. M."
 author = "Kelson C. M."
-release = "1.0.1"
+release = "1.2.0"
 
 extensions = [
     "sphinx.ext.githubpages",
