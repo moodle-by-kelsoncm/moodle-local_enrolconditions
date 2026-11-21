@@ -54,6 +54,9 @@ Course completed (``enrolcond_coursecompleted``)
       :alt: Course completed condition dialog.
       :width: 520px
 
+Enrolled in a course (``enrolcond_courseenrolled``)
+   Met by the users enrolled in other courses: in at least one of them or in all of them, up to 50 courses. By default only active enrolments count (not suspended, in an enabled enrolment method and within its dates); uncheck *Only active enrolments* to count any enrolment. The enrolment being checked never satisfies its own condition. A deleted course is never met (the description shows its id). Observes enrolments created, updated and deleted. Restored on another site, it is not met until a teacher edits it.
+
 List of usernames (``enrolcond_userlist``)
    Usernames typed in the condition, one per line or separated by spaces, commas or semicolons; case is ignored. At most 5,000 usernames.
 

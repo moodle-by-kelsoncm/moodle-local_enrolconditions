@@ -18,6 +18,7 @@ Conditions included:
 | `enrolcond_profile` | a standard or custom profile field compared with a value |
 | `enrolcond_cohort` | the members of a cohort |
 | `enrolcond_coursecompleted` | the users who completed another course |
+| `enrolcond_courseenrolled` | the users enrolled in one or all of other courses |
 | `enrolcond_userlist` | the usernames typed in the condition (up to 5,000) |
 | `enrolcond_userfile` | the usernames of a CSV or text file kept in the course (up to 200,000) |
 | `enrolcond_sqlquery` | the usernames returned by a query defined by an administrator |

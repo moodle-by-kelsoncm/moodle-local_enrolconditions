@@ -2,6 +2,11 @@
 
 All notable changes to the Enrolment conditions plugin will be documented in this file.
 
+## 1.2.0 - 2026-11-21
+
+### Added
+- Condition `enrolcond_courseenrolled`: users enrolled in other courses (at least one or all of them, up to 50), optionally only active enrolments; re-checked on `user_enrolment_created`, `user_enrolment_updated` and `user_enrolment_deleted`.
+
 ## 1.1.0 - 2026-11-18
 
 ### Added
